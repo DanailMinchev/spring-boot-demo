@@ -1,7 +1,7 @@
 package com.example.demo.web.controllers;
 
-import com.example.demo.models.Post;
-import com.example.demo.services.PostsService;
+import com.example.demo.dtos.PostDto;
+import com.example.demo.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
-public class PostsController {
+public class PostController {
 
-    private final PostsService postsService;
+    private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        return ResponseEntity.ok(postsService.getAllPosts());
+    public ResponseEntity<List<PostDto>> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
     }
 
 }

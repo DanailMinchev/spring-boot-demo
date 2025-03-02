@@ -1,18 +1,14 @@
-package com.example.demo.models;
+package com.example.demo.dtos;
 
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder(toBuilder = true)
-public class Post {
+public class PostDto {
 
     private Long id;
-    private String userId;
     private String title;
     private String body;
-    private List<Comment> comments;
 
 }

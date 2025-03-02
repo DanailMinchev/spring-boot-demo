@@ -1,6 +1,6 @@
 package com.example.demo.clients;
 
-import com.example.demo.models.Post;
+import com.example.demo.dtos.PostDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +12,9 @@ import java.util.List;
 public interface JSONPlaceHolderClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/posts")
-    List<Post> getAllPosts();
+    List<PostDto> getAllPosts();
 
     @RequestMapping(method = RequestMethod.GET, value = "/posts/{postId}", produces = "application/json")
-    Post getPostById(@PathVariable("postId") Long postId);
+    PostDto getPostById(@PathVariable("postId") Long postId);
 
 }

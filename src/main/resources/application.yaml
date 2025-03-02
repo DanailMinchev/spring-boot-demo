@@ -1,6 +1,10 @@
 spring:
   application:
     name: Demo
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
   cloud:
     openfeign:
       client:
@@ -12,6 +16,7 @@ spring:
           jsonplaceholder:
             url: https://jsonplaceholder.typicode.com/
 
-#logging:
-#  level:
+logging:
+  level:
+    org.hibernate.sql: debug
 #    com.example.demo: debug
