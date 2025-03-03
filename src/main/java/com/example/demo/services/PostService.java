@@ -54,6 +54,10 @@ public class PostService {
         });
     }
 
+    public boolean existsById(Long id) {
+        return postRepository.existsById(id);
+    }
+
     public List<PostModel> findAll(Pageable pageable) {
         Pageable pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
@@ -78,6 +82,10 @@ public class PostService {
         } else {
             return Optional.empty();
         }
+    }
+
+    public void deleteById(Long id) {
+        postRepository.deleteById(id);
     }
 
     private void populatePostComments(PostEntity postEntity, Long postId) {
