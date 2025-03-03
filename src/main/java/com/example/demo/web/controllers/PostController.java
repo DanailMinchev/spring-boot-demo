@@ -2,13 +2,16 @@ package com.example.demo.web.controllers;
 
 import com.example.demo.models.PostModel;
 import com.example.demo.services.PostService;
+import com.example.demo.web.controllers.dtos.UpdatePostModelRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,6 +49,18 @@ public class PostController {
         log.info("PostController.findById(id) called with id: {}", id);
 
         Optional<PostModel> postModelOptional = postService.findById(id);
+
+        return postModelOptional
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PostModel> updateById(@PathVariable Long id,
+                                                @RequestBody UpdatePostModelRequest request) {
+        log.info("PostController.updateById(id, request) called with id: {}, request: {}", id, request);
+
+        Optional<PostModel> postModelOptional = postService.updateById(id, request);
 
         return postModelOptional
                 .map(ResponseEntity::ok)
