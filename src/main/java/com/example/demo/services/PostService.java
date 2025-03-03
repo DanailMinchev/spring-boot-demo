@@ -5,9 +5,14 @@ import com.example.demo.clients.jsonplaceholder.dtos.PostCommentResponseDto;
 import com.example.demo.domain.jpa.PostCommentEntity;
 import com.example.demo.domain.jpa.PostEntity;
 import com.example.demo.mappers.PostMapper;
+import com.example.demo.models.PostModel;
 import com.example.demo.repositories.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +51,22 @@ public class PostService {
             PostEntity savedPostEntity = postRepository.save(postEntity);
             log.info("savedPostEntity: {}", savedPostEntity);
         });
+    }
+
+    public List<PostModel> findAll(Pageable pageable) {
+        Pageable pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.by(Sort.Direction.DESC, "id"))
+        );
+
+        Page<PostEntity> postModelPage = postRepository.findAll(pageRequest);
+
+        return postModelPage
+                .getContent()
+                .stream()
+                .map(postMapper::postEntityToPostModel)
+                .toList();
     }
 
     private void populatePostComments(PostEntity postEntity, Long postId) {
