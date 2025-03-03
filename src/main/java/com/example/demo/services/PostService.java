@@ -7,7 +7,8 @@ import com.example.demo.domain.jpa.PostEntity;
 import com.example.demo.mappers.PostMapper;
 import com.example.demo.models.PostModel;
 import com.example.demo.repositories.PostRepository;
-import com.example.demo.web.controllers.dtos.UpdatePostModelRequest;
+import com.example.demo.web.controllers.dtos.CreatePostRequest;
+import com.example.demo.web.controllers.dtos.UpdatePostRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -86,7 +87,19 @@ public class PostService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Optional<PostModel> updateById(Long id, UpdatePostModelRequest request) {
+    public PostModel create(CreatePostRequest request) {
+        PostEntity postEntity = PostEntity.builder()
+                .title(request.getTitle())
+                .body(request.getBody())
+                .build();
+
+        PostEntity savedPostEntity = postRepository.save(postEntity);
+
+        return postMapper.postEntityToPostModel(savedPostEntity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Optional<PostModel> updateById(Long id, UpdatePostRequest request) {
         Optional<PostEntity> postEntityOptional = postRepository.findById(id);
         if (postEntityOptional.isPresent()) {
             PostEntity postEntity = postEntityOptional.get();

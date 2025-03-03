@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder(toBuilder = true)
-public class UpdatePostModelRequest {
+public class UpdatePostRequest {
 
     private String title;
     private String body;
