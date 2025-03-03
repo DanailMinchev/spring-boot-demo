@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -67,6 +68,16 @@ public class PostService {
                 .stream()
                 .map(postMapper::postEntityToPostModel)
                 .toList();
+    }
+
+    public Optional<PostModel> findById(Long id) {
+        Optional<PostEntity> postEntityOptional = postRepository.findById(id);
+        if (postEntityOptional.isPresent()) {
+            PostEntity postEntity = postEntityOptional.get();
+            return Optional.of(postMapper.postEntityToPostModel(postEntity));
+        } else {
+            return Optional.empty();
+        }
     }
 
     private void populatePostComments(PostEntity postEntity, Long postId) {
