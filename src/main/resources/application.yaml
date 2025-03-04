@@ -14,7 +14,7 @@ spring:
             readTimeout: 5000
             loggerLevel: full
           jsonplaceholder:
-            url: https://jsonplaceholder.typicode.com/
+            url: ${JSONPLACEHOLDER_URL:https://jsonplaceholder.typicode.com/}
   jpa:
     show-sql: true
     properties:
